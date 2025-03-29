@@ -1,38 +1,46 @@
-import { Text, View, StyleSheet, Touchable, TouchableOpacity } from "react-native";
+import { Text, View, StyleSheet, Touchable, TouchableOpacity, useColorScheme } from "react-native";
 import Icon from '@/assets/images/wordle-icon.svg';
 import { Link } from 'expo-router';
 import { format} from 'date-fns';
+import { Colors} from '@/constants/Colors';
+import ThemedText from "@/components/ThemedText";
 
 export default function Index() {
+  const colorScheme = useColorScheme();
+  const backgroundColor = Colors[colorScheme ?? 'light'].background;
+  const textColor = Colors[colorScheme ?? 'light'].text;
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, {backgroundColor}]}>
 
       <View style={styles.header}>
         <Icon width={100} height={100} />
-        <Text style={styles.title}>Wordle</Text>
-        <Text style={styles.text}>Get 6 chances to guess a 5 letter word.</Text>
+        <ThemedText style={styles.title}>Wordle</ThemedText>
+        <ThemedText style={styles.text}>Get 6 chances to guess a 5 letter word.</ThemedText>
       </View>
 
       <View style={styles.menu}>
 
-        <Link href={'/game'} style={[styles.btn, {backgroundColor: '#000'}]} asChild>
+        <Link 
+          href={'/game'} 
+          style={[styles.btn, {backgroundColor: colorScheme === 'light' ? '#000' : '#4a4a4a'}]} 
+          asChild>
           <TouchableOpacity>
             <Text style={[styles.btnText, styles.primaryText]}>Play</Text>
           </TouchableOpacity>
         </Link>
 
-        <TouchableOpacity style={styles.btn}>
-            <Text style={styles.btnText}>Log In</Text>
+        <TouchableOpacity style={[styles.btn, {borderColor: textColor}]}>
+            <ThemedText style={styles.btnText}>Log In</ThemedText>
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.btn}>
-            <Text style={styles.btnText}>Subscribe</Text>
+        <TouchableOpacity style={[styles.btn, {borderColor: textColor}]}>
+            <ThemedText style={styles.btnText}>Subscribe</ThemedText>
         </TouchableOpacity>
       </View>
 
       <View style={styles.footer}>
-        <Text style={styles.footerDate}>{format(new Date(), 'd MMMM yyyy')}</Text>
-        <Text style={styles.footerText}>Made by Quanchao</Text>
+        <ThemedText style={styles.footerDate}>{format(new Date(), 'd MMMM yyyy')}</ThemedText>
+        <ThemedText style={styles.footerText}>Made by Quanchao</ThemedText>
       </View>
     </View>
   );
