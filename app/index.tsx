@@ -19,7 +19,7 @@ export default function Index() {
 
       <View style={styles.header}>
         <Icon width={100} height={100} />
-        <ThemedText style={styles.title}>Wordle</ThemedText>
+        <ThemedText style={styles.title}>Wordle Game Project</ThemedText>
         <ThemedText style={styles.text}>Get 6 chances to guess a 5 letter word.</ThemedText>
       </View>
 
