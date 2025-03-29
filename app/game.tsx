@@ -3,12 +3,12 @@ import { Colors } from '@/constants/Colors';
 import { Stack, useRouter} from 'expo-router';
 import { useEffect, useRef, useState } from 'react';
 import { Ionicons } from '@expo/vector-icons';
-import OnScreenKeyboard, { BACKSPACE, ENTER } from '@/components/OnScreenKeyboard';
+import OnScreenKeyboard, { BACKSPACE, ENTER } from '@/components/OnscreenKeyboard';
 import { allWords } from '@/utils/allWords';
 import { words } from '@/utils/targetWords';
 
 
-const ROWS = 6;
+const ROWS = 3;
 
 const Page = () => {
     const colorScheme = useColorScheme();
@@ -97,10 +97,12 @@ const Page = () => {
         setTimeout(() => {
             if (currentWord === word) {
                 console.log('word found');
-                //To Do show end screen
+                //Show end screen
+                router.push(`/end?win=true&word=${word}&gameField=${JSON.stringify(rows)}`);
             } else if (curRow +1 >= rows.length) {
                 console.log('game over');
-                //To Do show end screeen
+                //Show end screen
+                router.push(`/end?win=false&word=${word}&gameField=${JSON.stringify(rows)}`);
             }
         }, 0);
 

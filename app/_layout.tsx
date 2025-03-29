@@ -66,14 +66,23 @@ export default function RootLayout() {
               }}/>
 
               <Stack.Screen name="game" 
-              options={{
-                headerBackTitle:'Wordle', 
-                headerTintColor: colorScheme === 'dark' ? '#fff' : '#000',
-                title: '',
-                headerBackTitleStyle: {
-                  fontSize: 26,
-                  fontFamily: 'FrankRuhlLibre_800ExtraBold',
-                }
+                options={{
+                  headerBackTitle:'Wordle', 
+                  headerTintColor: colorScheme === 'dark' ? '#fff' : '#000',
+                  title: '',
+                  headerBackTitleStyle: {
+                    fontSize: 26,
+                    fontFamily: 'FrankRuhlLibre_800ExtraBold',
+                  }, 
+              }}/>
+
+              <Stack.Screen 
+                name ='end'
+                options={{
+                  presentation: 'fullScreenModal',
+                  headerShadowVisible: false,
+                  title: '',
+                  
               }}/>
 
 
