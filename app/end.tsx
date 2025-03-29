@@ -89,6 +89,11 @@ const Page = () => {
                     backgroundColor: "black",
                 }}/>
 
+                <TouchableOpacity onPress={shareGame} style={styles.iconBtn}>
+                    <Text style={styles.btnText}>Share with friends</Text>
+                    <Ionicons name='share-social' size={24} color={'#fff'}/>
+                </TouchableOpacity>
+
             </View>
         </View>
     )
@@ -145,5 +150,14 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         fontWeight: 'bold',
         fontSize: 30,
+    },
+    iconBtn:{
+        marginVertical: 20,
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: Colors.light.green,
+        borderRadius: 30,
+        width: '70%',
     },
 });
