@@ -6,7 +6,24 @@ import { useFonts, FrankRuhlLibre_800ExtraBold,
 } from '@expo-google-fonts/frank-ruhl-libre';
 import { useEffect } from "react";
 import { DarkTheme, DefaultTheme, ThemeProvider } from "@react-navigation/native";
-import { useColorScheme } from "react-native";
+import { TouchableOpacity, useColorScheme } from "react-native";
+import { Colors } from '@/constants/Colors';
+import { ClerkProvider, ClerkLoaded } from '@clerk/clerk-expo'
+import { tokenCache } from "@/utils/cache";
+import Logo from '@/assets/images/nyt-logo.svg';
+import { Ionicons } from "@expo/vector-icons";
+import { useRouter } from "expo-router";
+
+
+const publishableKey = process.env.EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY!;
+
+if (!publishableKey) {
+  throw new Error(
+    'Missing Publishable Key. Please set EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY in your .env'
+  );
+}
+
+
 
 // Load the fonts first before hiding the splash screen
 SplashScreen.preventAutoHideAsync();
@@ -14,6 +31,7 @@ SplashScreen.preventAutoHideAsync();
 export default function RootLayout() {
 
   const colorScheme = useColorScheme();
+  const router = useRouter(); 
 
   let [fontsLoaded] = useFonts({
     FrankRuhlLibre_800ExtraBold,
@@ -32,10 +50,25 @@ export default function RootLayout() {
   }
 
   return (
-    <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-    <Stack>
-      <Stack.Screen name ="index" options={{headerShown: false}} />
-    </Stack> 
-    </ThemeProvider>
+    <ClerkProvider publishableKey={publishableKey} tokenCache={tokenCache}>
+      <ClerkLoaded>
+        <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
+          <Stack>
+            <Stack.Screen name ="index" options={{headerShown: false}} />
+            <Stack.Screen 
+              name ="login" 
+              options={{presentation: 'modal',
+              headerShadowVisible: false,
+              headerTitle: () => <Logo width={150} height={40}/>,
+              headerLeft: () => (
+                <TouchableOpacity onPress={() => router.back()}>
+                  <Ionicons name='close' size={26} color={Colors.light.gray} />
+                </TouchableOpacity>
+              )
+              }} />
+          </Stack> 
+        </ThemeProvider>
+      </ClerkLoaded>
+    </ClerkProvider>
   );
 }

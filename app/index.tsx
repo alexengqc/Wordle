@@ -1,14 +1,19 @@
 import { Text, View, StyleSheet, Touchable, TouchableOpacity, useColorScheme } from "react-native";
 import Icon from '@/assets/images/wordle-icon.svg';
+import { useRef } from 'react';
 import { Link } from 'expo-router';
 import { format} from 'date-fns';
 import { Colors} from '@/constants/Colors';
 import ThemedText from "@/components/ThemedText";
+import { SignedIn, SignedOut, useAuth } from "@clerk/clerk-react";
+
 
 export default function Index() {
   const colorScheme = useColorScheme();
   const backgroundColor = Colors[colorScheme ?? 'light'].background;
   const textColor = Colors[colorScheme ?? 'light'].text;
+  const {signOut} = useAuth();
+
   return (
     <View style={[styles.container, {backgroundColor}]}>
 
@@ -29,13 +34,21 @@ export default function Index() {
           </TouchableOpacity>
         </Link>
 
-        <TouchableOpacity style={[styles.btn, {borderColor: textColor}]}>
-            <ThemedText style={styles.btnText}>Log In</ThemedText>
-        </TouchableOpacity>
+        <SignedOut>
+          <Link href={'/login'} style={[styles.btn, {borderColor: textColor}]} asChild>
+            <TouchableOpacity>
+              <ThemedText style={styles.btnText}>Log In</ThemedText>
+            </TouchableOpacity>
+          </Link>
+        </SignedOut>
 
-        <TouchableOpacity style={[styles.btn, {borderColor: textColor}]}>
-            <ThemedText style={styles.btnText}>Subscribe</ThemedText>
-        </TouchableOpacity>
+        <SignedIn>
+          <TouchableOpacity style={[styles.btn, {borderColor: textColor}]}
+            onPress={() => signOut()}>
+              <ThemedText style={styles.btnText}>Sign Out</ThemedText>
+          </TouchableOpacity>
+        </SignedIn>
+
       </View>
 
       <View style={styles.footer}>
