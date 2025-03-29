@@ -1,8 +1,9 @@
 import { StyleSheet, Text, View,useColorScheme } from 'react-native'
 import { Colors } from '@/constants/Colors';
 import { Stack, useRouter} from 'expo-router';
-import React, { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Ionicons } from '@expo/vector-icons';
+import OnScreenKeyboard, { BACKSPACE, ENTER } from '@/components/OnScreenKeyboard';
 
 
 const ROWS = 6;
@@ -14,7 +15,7 @@ const Page = () => {
     const grayColor = Colors[colorScheme ?? 'light'].gray;
     const router = useRouter();
 
-    const [rows, setRows] = useState<string[][]>(new Array(ROWS).fill(new Array(5).fill('')));
+    const [rows, setRows] = useState<string[][]>(new Array(ROWS).fill(new Array(5).fill('a')));
     const [currentRow, setCurrentRow] = useState(0);
     const [currentCol, _setCurrentCol] = useState(0);
 
@@ -49,8 +50,12 @@ const Page = () => {
                             </View>
                         ))}
                     </View>
-                    
-            <Text>Page</Text>
+                <OnScreenKeyboard 
+                    onKeyPressed={addKey} 
+                    greenLetters={greenLetters} 
+                    yellowLetters={yellowLetters} 
+                    grayLetters={grayLetters} 
+                />
         </View>
     );
 };

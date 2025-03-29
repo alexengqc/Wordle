@@ -1,6 +1,7 @@
 import { Ionicons } from '@expo/vector-icons';
 import {Pressable, StyleSheet, Text, useWindowDimensions, View } from 'react-native';
 import { Colors } from '@/constants/Colors';
+import { Platform } from 'react-native';
 
 type OnScreenKeyboardProps = {
     onKeyPressed: (key: string) => void;
@@ -16,16 +17,16 @@ const keys = [
     ['q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p'],
     ['a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l'],
     [ENTER, 'z', 'x', 'c', 'v', 'b', 'n', 'm', BACKSPACE],
-  ];
+];
 
-const OnScreenKeyboard = () => ({
+  const OnScreenKeyboard = ({
     onKeyPressed,
     greenLetters,
     yellowLetters,
     grayLetters,
-    }: OnScreenKeyboardProps) => {
+    }: OnScreenKeyboardProps)  => {
     const {width} = useWindowDimensions();
-    const keyWidth = (width -60) / keys[0].length;
+    const keyWidth = Platform.OS === 'web' ? 58 : (width - 60) / keys[0].length;
     const keyHeight = 60;
     
     const isSpecialKey = (key : string) => [ENTER, BACKSPACE].includes(key);
@@ -61,7 +62,7 @@ const OnScreenKeyboard = () => ({
                     style={[
                       styles.keyText,
                       key === 'ENTER' && { fontSize: 12 },
-                      isInLetters(key) && { color: '#fff' },
+                      isInLetters(key) && { color: 'white' },
                     ]}>
                     {isSpecialKey(key) ? (
                       key === ENTER ? (
@@ -70,7 +71,7 @@ const OnScreenKeyboard = () => ({
                         <Ionicons name="backspace-outline" size={24} color="black" />
                       )
                     ) : (
-                      key.toUpperCase()
+                      key
                     )}
                   </Text>
                 </Pressable>
@@ -83,24 +84,23 @@ const OnScreenKeyboard = () => ({
 
 export default OnScreenKeyboard;
 const styles = StyleSheet.create({
-    container: {
-        marginTop: 40,
-        gap: 4,
-        alignSelf: 'center',
-    },
-    row: {
-        flexDirection: 'row',
-        gap: 4,
-        justifyContent: 'center',
-    },
-    key: {
-        alignContent: 'center',
-        justifyContent:'center',
-        borderRadius: 4,
-    },
-    keyText: {
-        fontWeight: 'bold',
-        fontSize: 20,
-        textTransform: 'uppercase',
-    }
+  container: {
+    marginTop: 40,
+    gap: 6,
+    alignSelf: 'center',
+  },
+  row: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    gap: 4,
+  },
+  key: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 4,
+  },
+  keyText: {
+    fontWeight: 'bold',
+    fontSize: 20,
+  },
 });
