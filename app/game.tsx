@@ -4,6 +4,8 @@ import { Stack, useRouter} from 'expo-router';
 import { useEffect, useRef, useState } from 'react';
 import { Ionicons } from '@expo/vector-icons';
 import OnScreenKeyboard, { BACKSPACE, ENTER } from '@/components/OnScreenKeyboard';
+import { allWords } from '@/utils/allWords';
+import { words } from '@/utils/targetWords';
 
 
 const ROWS = 6;
@@ -15,17 +17,50 @@ const Page = () => {
     const grayColor = Colors[colorScheme ?? 'light'].gray;
     const router = useRouter();
 
-    const [rows, setRows] = useState<string[][]>(new Array(ROWS).fill(new Array(5).fill('a')));
-    const [currentRow, setCurrentRow] = useState(0);
-    const [currentCol, _setCurrentCol] = useState(0);
+    const [rows, setRows] = useState<string[][]>(new Array(ROWS).fill(new Array(5).fill('')));
+    const [curRow, setCurRow] = useState(0);
+    const [curCol, _setCurCol] = useState(0);
 
     const [greenLetters, setGreenLetters] = useState<string[]>([]);
     const [yellowLetters, setYellowLetters] = useState<string[]>([]);
     const [grayLetters, setGrayLetters] = useState<string[]>([]);
 
+    //const [word, setWord] = useState<string>(words[Math.floor(Math.random()*words.length)]);
+    const [word, setWord] = useState('alexe');
+    const wordLetters = word.split('');
+
+    const colStateRef = useRef(curCol);
+    const setCurCol = (col: number) => {
+        colStateRef.current = col;
+        _setCurCol(col);
+    };
+
     const addKey = (key:string) => {
         console.log('addKey', key);
-        //To Do
+
+        const newRows = [...rows.map((row) => [...row])];
+        
+        if (key === 'ENTER'){
+            checkWord();
+        } else if (key === 'BACKSPACE'){
+            if (colStateRef.current === 0) {
+                newRows[curRow][0] = '';
+                setRows(newRows);
+                return;
+            }
+            newRows[curRow][colStateRef.current - 1] = ''
+
+            setCurCol(colStateRef.current - 1);
+            setRows(newRows);
+            return;
+        } else if (colStateRef.current >= newRows[curRow].length){
+            //End of line, don't add key
+            return;
+        } else {
+            newRows[curRow][colStateRef.current] = key;
+            setRows(newRows);
+            setCurCol(colStateRef.current + 1);
+        }
     };
 
     return (
