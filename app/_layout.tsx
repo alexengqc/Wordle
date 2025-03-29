@@ -23,8 +23,6 @@ if (!publishableKey) {
   );
 }
 
-
-
 // Load the fonts first before hiding the splash screen
 SplashScreen.preventAutoHideAsync();
 
@@ -65,7 +63,20 @@ export default function RootLayout() {
                   <Ionicons name='close' size={26} color={Colors.light.gray} />
                 </TouchableOpacity>
               )
-              }} />
+              }}/>
+
+              <Stack.Screen name="game" 
+              options={{
+                headerBackTitle:'Wordle', 
+                headerTintColor: colorScheme === 'dark' ? '#fff' : '#000',
+                title: '',
+                headerBackTitleStyle: {
+                  fontSize: 26,
+                  fontFamily: 'FrankRuhlLibre_800ExtraBold',
+                }
+              }}/>
+
+
           </Stack> 
         </ThemeProvider>
       </ClerkLoaded>
