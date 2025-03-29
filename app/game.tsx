@@ -63,6 +63,52 @@ const Page = () => {
         }
     };
 
+    const checkWord = () => {
+        const currentWord = rows[curRow].join('');
+
+        if (currentWord.length < word.length) {
+            console.log('Words must be 5 letters')
+            //To do, show error
+            return;
+        }
+        if(!allWords.includes(currentWord)) {
+            console.log('Not a word');
+            //To do, show error
+        }
+
+        const newGreen: string[] = [];
+        const newYellow: string[] = [];
+        const newGray: string[] = [];
+
+        currentWord.split('').forEach((letter, index) => {
+            if(letter == wordLetters[index]) {
+                newGreen.push(letter);
+            } else if(wordLetters.includes(letter)){
+                newYellow.push(letter);
+            } else{
+                newGray.push(letter);
+            }
+        });
+
+        setGreenLetters([...greenLetters,...newGreen]);
+        setYellowLetters([...yellowLetters,...newYellow]);
+        setGrayLetters([...grayLetters,...newGray]);
+
+        setTimeout(() => {
+            if (currentWord === word) {
+                console.log('word found');
+                //To Do show end screen
+            } else if (curRow +1 >= rows.length) {
+                console.log('game over');
+                //To Do show end screeen
+            }
+        }, 0);
+
+        setCurRow(curRow + 1);
+        setCurCol(0);
+
+    };
+
     return (
         <View style={[styles.container, {backgroundColor}]}>
             <Stack.Screen
