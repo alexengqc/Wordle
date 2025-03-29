@@ -106,8 +106,27 @@ const Page = () => {
 
         setCurRow(curRow + 1);
         setCurCol(0);
-
     };
+
+    const getCellColor = (cell: string, rowIndex: number, cellIndex: number) => {
+        if(curRow > rowIndex) {
+            if(wordLetters[cellIndex] === cell) {
+                return Colors.light.green;
+            } else if(wordLetters.includes(cell)) {
+                return Colors.light.yellow;
+            }   else return grayColor;
+         }
+         return 'transparent' 
+    }
+
+    const getBorderColor = (cell: string, rowIndex: number, cellIndex: number) => {
+        if(curRow > rowIndex && cell !== ''){
+            return getCellColor(cell, rowIndex, cellIndex);
+        }
+        return Colors.light.gray;
+    }
+    
+
 
     return (
         <View style={[styles.container, {backgroundColor}]}>
@@ -124,7 +143,12 @@ const Page = () => {
                         {rows.map((row, rowIndex) => (
                             <View style={styles.gameFieldRow} key={`row-${rowIndex}`}>
                                 {row.map((cell, cellIndex) => (
-                                    <View style={styles.cell} key={`cell-${rowIndex}-${cellIndex}`}>
+                                    <View style={[styles.cell,
+                                        {
+                                            backgroundColor: getCellColor(cell,rowIndex,cellIndex),
+                                            borderColor: getBorderColor(cell, rowIndex,cellIndex),
+                                        },
+                                    ]} key={`cell-${rowIndex}-${cellIndex}`}>
                                         <Text style={styles.cellText}>{cell}</Text>
                                     </View>
                                 ))}
