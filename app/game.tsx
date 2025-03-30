@@ -8,7 +8,7 @@ import { allWords } from '@/utils/allWords';
 import { words } from '@/utils/targetWords';
 
 
-const ROWS = 1;
+const ROWS = 6;
 
 const Page = () => {
     const colorScheme = useColorScheme();

@@ -71,7 +71,7 @@ const keys = [
                         <Ionicons name="backspace-outline" size={24} color="black" />
                       )
                     ) : (
-                      key
+                      key.toUpperCase()
                     )}
                   </Text>
                 </Pressable>
