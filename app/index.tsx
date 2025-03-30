@@ -31,21 +31,21 @@ export default function Index() {
           href={'/game'} 
           style={[styles.btn, {backgroundColor: colorScheme === 'light' ? '#000' : '#4a4a4a'}]} 
           asChild>
-          <AnimatedTouchableOpacity entering={FadeInLeft.delay(200)}>
+          <AnimatedTouchableOpacity entering={FadeInLeft.delay(100)}>
             <Text style={[styles.btnText, styles.primaryText]}>Play</Text>
           </AnimatedTouchableOpacity>
         </Link>
 
         <SignedOut>
           <Link href={'/login'} style={[styles.btn, {borderColor: textColor}]} asChild>
-            <AnimatedTouchableOpacity entering={FadeInLeft.delay(400)}>
+            <AnimatedTouchableOpacity entering={FadeInLeft.delay(200)}>
               <ThemedText style={styles.btnText}>Log In</ThemedText>
             </AnimatedTouchableOpacity>
           </Link>
         </SignedOut>
 
         <SignedIn>
-          <AnimatedTouchableOpacity entering={FadeInLeft.delay(600)} style={[styles.btn, {borderColor: textColor}]}
+          <AnimatedTouchableOpacity entering={FadeInLeft.delay(300)} style={[styles.btn, {borderColor: textColor}]}
             onPress={() => signOut()}>
               <ThemedText style={styles.btnText}>Sign Out</ThemedText>
           </AnimatedTouchableOpacity>
@@ -53,7 +53,7 @@ export default function Index() {
 
       </View>
 
-      <Animated.View entering={FadeIn.delay(800)} style={styles.footer}>
+      <Animated.View entering={FadeIn.delay(400)} style={styles.footer}>
         <ThemedText style={styles.footerDate}>{format(new Date(), 'd MMMM yyyy')}</ThemedText>
         <ThemedText style={styles.footerText}>Made by Quanchao</ThemedText>
       </Animated.View>
