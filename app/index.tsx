@@ -6,7 +6,9 @@ import { format} from 'date-fns';
 import { Colors} from '@/constants/Colors';
 import ThemedText from "@/components/ThemedText";
 import { SignedIn, SignedOut, useAuth } from "@clerk/clerk-react";
+import Animated, { FadeIn, FadeInDown, FadeInLeft } from "react-native-reanimated";
 
+const AnimatedTouchableOpacity = Animated.createAnimatedComponent(TouchableOpacity);
 
 export default function Index() {
   const colorScheme = useColorScheme();
@@ -17,11 +19,11 @@ export default function Index() {
   return (
     <View style={[styles.container, {backgroundColor}]}>
 
-      <View style={styles.header}>
+      <Animated.View style={styles.header} entering={FadeInDown}>
         <Icon width={100} height={100} />
         <ThemedText style={styles.title}>Wordle Game Project</ThemedText>
         <ThemedText style={styles.text}>Get 6 chances to guess a 5 letter word.</ThemedText>
-      </View>
+      </Animated.View>
 
       <View style={styles.menu}>
 
@@ -29,32 +31,32 @@ export default function Index() {
           href={'/game'} 
           style={[styles.btn, {backgroundColor: colorScheme === 'light' ? '#000' : '#4a4a4a'}]} 
           asChild>
-          <TouchableOpacity>
+          <AnimatedTouchableOpacity entering={FadeInLeft.delay(200)}>
             <Text style={[styles.btnText, styles.primaryText]}>Play</Text>
-          </TouchableOpacity>
+          </AnimatedTouchableOpacity>
         </Link>
 
         <SignedOut>
           <Link href={'/login'} style={[styles.btn, {borderColor: textColor}]} asChild>
-            <TouchableOpacity>
+            <AnimatedTouchableOpacity entering={FadeInLeft.delay(400)}>
               <ThemedText style={styles.btnText}>Log In</ThemedText>
-            </TouchableOpacity>
+            </AnimatedTouchableOpacity>
           </Link>
         </SignedOut>
 
         <SignedIn>
-          <TouchableOpacity style={[styles.btn, {borderColor: textColor}]}
+          <AnimatedTouchableOpacity entering={FadeInLeft.delay(600)} style={[styles.btn, {borderColor: textColor}]}
             onPress={() => signOut()}>
               <ThemedText style={styles.btnText}>Sign Out</ThemedText>
-          </TouchableOpacity>
+          </AnimatedTouchableOpacity>
         </SignedIn>
 
       </View>
 
-      <View style={styles.footer}>
+      <Animated.View entering={FadeIn.delay(800)} style={styles.footer}>
         <ThemedText style={styles.footerDate}>{format(new Date(), 'd MMMM yyyy')}</ThemedText>
         <ThemedText style={styles.footerText}>Made by Quanchao</ThemedText>
-      </View>
+      </Animated.View>
     </View>
   );
 }

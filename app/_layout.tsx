@@ -1,4 +1,4 @@
-import { Stack } from "expo-router";
+import { Stack, useRouter } from "expo-router";
 import * as SplashScreen from 'expo-splash-screen';
 import { useFonts, FrankRuhlLibre_800ExtraBold,
   FrankRuhlLibre_500Medium,
@@ -6,13 +6,16 @@ import { useFonts, FrankRuhlLibre_800ExtraBold,
 } from '@expo-google-fonts/frank-ruhl-libre';
 import { useEffect } from "react";
 import { DarkTheme, DefaultTheme, ThemeProvider } from "@react-navigation/native";
-import { TouchableOpacity, useColorScheme } from "react-native";
+import { TouchableOpacity, useColorScheme, Appearance, Platform } from "react-native";
 import { Colors } from '@/constants/Colors';
 import { ClerkProvider, ClerkLoaded } from '@clerk/clerk-expo'
 import { tokenCache } from "@/utils/cache";
 import Logo from '@/assets/images/nyt-logo.svg';
 import { Ionicons } from "@expo/vector-icons";
-import { useRouter } from "expo-router";
+import { BottomSheetModalProvider } from '@gorhom/bottom-sheet';
+import { GestureHandlerRootView } from "react-native-gesture-handler";
+import { useMMKVBoolean } from "react-native-mmkv";
+
 
 
 const publishableKey = process.env.EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY!;
@@ -30,6 +33,12 @@ export default function RootLayout() {
 
   const colorScheme = useColorScheme();
   const router = useRouter(); 
+ /*  const [dark] = useMMKVBoolean('dark-mode', storage);
+
+  useEffect(() => {
+    console.log('dark', dark);
+    Appearance.setColorScheme(dark ? 'dark' : 'light');
+  }, [dark]); */
 
   let [fontsLoaded] = useFonts({
     FrankRuhlLibre_800ExtraBold,
