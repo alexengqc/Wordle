@@ -8,7 +8,7 @@ import { allWords } from '@/utils/allWords';
 import { words } from '@/utils/targetWords';
 
 
-const ROWS = 1;
+const ROWS = 6;
 
 const Page = () => {
     const colorScheme = useColorScheme();
@@ -25,8 +25,8 @@ const Page = () => {
     const [yellowLetters, setYellowLetters] = useState<string[]>([]);
     const [grayLetters, setGrayLetters] = useState<string[]>([]);
 
-    //const [word, setWord] = useState<string>(words[Math.floor(Math.random()*words.length)]);
-    const [word, setWord] = useState('alexe');
+    const [word, setWord] = useState<string>(words[Math.floor(Math.random()*words.length)]);
+    //const [word, setWord] = useState('abcde');
     const wordLetters = word.split('');
 
     const colStateRef = useRef(curCol);
