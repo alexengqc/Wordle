@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View,useColorScheme } from 'react-native'
+import { Platform, StyleSheet, Text, View,useColorScheme } from 'react-native'
 import { Colors } from '@/constants/Colors';
 import { Stack, useRouter} from 'expo-router';
 import { useEffect, useRef, useState } from 'react';
@@ -7,6 +7,7 @@ import OnScreenKeyboard, { BACKSPACE, ENTER } from '@/components/OnscreenKeyboar
 import { allWords } from '@/utils/allWords';
 import { words } from '@/utils/targetWords';
 import Animated, {useSharedValue, ZoomIn, useAnimatedStyle, withSequence, withTiming, withRepeat, withDelay } from 'react-native-reanimated';
+import { add } from 'date-fns';
 
 
 
@@ -112,25 +113,6 @@ const Page = () => {
         setCurRow(curRow + 1);
         setCurCol(0);
     };
-
-    /* const getCellColor = (cell: string, rowIndex: number, cellIndex: number) => {
-        if(curRow > rowIndex) {
-            if(wordLetters[cellIndex] === cell) {
-                return Colors.light.green;
-            } else if(wordLetters.includes(cell)) {
-                return Colors.light.yellow;
-            }   else return grayColor;
-         }
-         return 'transparent' 
-    }
-
-    const getBorderColor = (cell: string, rowIndex: number, cellIndex: number) => {
-        if(curRow > rowIndex && cell !== ''){
-            return getCellColor(cell, rowIndex, cellIndex);
-        }
-        return Colors.light.gray;
-    } */
-    
 
     //Animations
 
@@ -248,6 +230,29 @@ const Page = () => {
     }, [curRow]);
 
     //End of animation code
+
+    //Web demonstration
+    useEffect(() => {
+        const handleKeyDown = (event: KeyboardEvent) => {
+            if (event.key ==='Enter') {
+                addKey('ENTER');
+            } else if (event.key === 'Backspace') {
+                addKey('BACKSPACE');
+            } else if (event.key.length === 1) {
+                addKey(event.key);
+            }
+        };
+
+        if (Platform.OS === 'web') {
+            document.addEventListener('keydown', handleKeyDown);
+        }
+
+        return() => {
+            if (Platform.OS === 'web') {
+                document.removeEventListener('keydown', handleKeyDown);
+            }
+        }
+    }, [curCol]);
 
 
 
